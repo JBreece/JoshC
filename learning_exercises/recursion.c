@@ -1,4 +1,6 @@
 #include <stdio.h>
+#define ROWS 3
+#define COLS 4
 
 void countdown(int n){
 	if(n <= 0){
@@ -28,14 +30,22 @@ void reversePrint(char str[]){
 }
 
 int findExit(char maze[3][4], int row, int col){
-	if(maze[row][col] == 'E')
-		return 1;
-	else if(maze[row][col] == '#')
-		findExit(maze, row - 1, col + 1);
-	else if(maze[row][col] == '.')
-		findExit(maze, row + 1, col);
-	else
+	if(row < 0 || col < 0 || row >= ROWS || col >= COLS)
 		return 0;
+	else if(maze[row][col] == 'E')
+		return 1;
+	else if(maze[row][col] == '#' || maze[row][col] == 'V'){
+		return 0;
+	}
+
+	maze[row][col] = 'V';
+
+	if(findExit(maze, row + 1, col)) return 1;
+	if(findExit(maze, row - 1, col)) return 1;
+	if(findExit(maze, row, col + 1)) return 1;
+	if(findExit(maze, row, col - 1)) return 1;
+
+	return 0;
 }
 
 int main(){
@@ -57,9 +67,9 @@ int main(){
 
 	// challenge 4 - find path in a maze
 	char maze[3][4] = {
-		{'.', '.', '.', '#'},
-		{'#', '#', '.', '#'},
-		{'.', '.', 'E', '.'}
+		{'.', '.', '#', 'E'},
+		{'#', '.', '#', '.'},
+		{'.', '.', '.', '.'}
 	};
 	printf("%d\n", findExit(maze, 0, 0));
 
