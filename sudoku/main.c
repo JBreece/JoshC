@@ -34,9 +34,30 @@ int main(){
 		}
 	}
 
-    srand(time(NULL));
+	srand(time(NULL));
 	generatePuzzle(myArray);
+	// Copy solved puzzle into answer key
+	int *answerArray = malloc(size * sizeof(int));
+	for (int i = 0; i < size; i++) {
+		answerArray[i] = myArray[i];
+	}
+
+	// Remove some cells (about 40%–60%)
+	int removeCount = size * 0.4; // tweak for difficulty
+	for (int k = 0; k < removeCount; k++) {
+		int idx = rand() % size;
+		myArray[idx] = 0;
+	}
+
 	displaySudoku(myArray, size);
+
+	char answer;
+	printf("Do you want to check your answer? Y or N\n");
+	scanf("%c", &answer);
+	if(answer == 'Y' || answer == 'y')
+		displaySudoku(answerArray, size);
+
 	free(myArray);
+	free(answerArray);
 	return 0;
 }

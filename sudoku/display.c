@@ -16,7 +16,3 @@ void displaySudoku(int myNumbers[], int length){
 	printf("Not a proper sudoku puzzle size!\n");
 	}
 }
-
-int add(int a, int b){
-	return a + b;
-}
