@@ -8,7 +8,7 @@ int main(){
 	int *myArray;
 	int size;
 
-	printf("What size Sudoku puzzle do you want?");
+	printf("What size Sudoku puzzle do you want? (For now, '81' is the only valid answer :))\n");
 	scanf("%d", &size);
 	while (getchar() != '\n' && getchar() != EOF); // required for scanf, cuts invalid input from end of string
 
@@ -43,7 +43,7 @@ int main(){
 	}
 
 	// Remove some cells (about 40%–60%)
-	int removeCount = size * 0.4; // tweak for difficulty
+	int removeCount = size * 0.1; // tweak for difficulty
 	for (int k = 0; k < removeCount; k++) {
 		int idx = rand() % size;
 		myArray[idx] = 0;
@@ -51,11 +51,37 @@ int main(){
 
 	displaySudoku(myArray, size);
 
+	// user input
+	int row, column, number;
+	char play;
+	printf("Want to play? Y or N\n");
+	scanf(" %c", &play);
+	while(play == 'Y' || play == 'y'){
+		printf("Enter a number in the format: row,column,number\n");
+		scanf("%d,%d,%d", &row, &column, &number);
+		myArray[((row - 1) * 9) + column - 1] = number;
+		displaySudoku(myArray, size);
+		printf("Add/update another number? Y or N\n");
+		scanf(" %c", &play);
+	}
+
+	// answer prompt
 	char answer;
 	printf("Do you want to check your answer? Y or N\n");
-	scanf("%c", &answer);
+	scanf(" %c", &answer);
 	if(answer == 'Y' || answer == 'y')
 		displaySudoku(answerArray, size);
+
+	// check answer
+	bool correctAnswer = true;
+	for(int i = 0; i < size; i++){
+		if(myArray[i] != answerArray[i])
+			correctAnswer = false;
+	}
+	if(correctAnswer == true)
+		printf("You did it! Nice job solving the puzzle.\n");
+	else
+		printf("Incorrect! Try playing again with ./runsudoku\n");
 
 	free(myArray);
 	free(answerArray);
