@@ -43,7 +43,7 @@ int main(){
 	}
 
 	// Remove some cells (about 40%–60%)
-	int removeCount = size * 0.1; // tweak for difficulty
+	int removeCount = size * 0.5; // tweak for difficulty
 	for (int k = 0; k < removeCount; k++) {
 		int idx = rand() % size;
 		myArray[idx] = 0;
