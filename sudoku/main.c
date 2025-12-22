@@ -49,8 +49,24 @@ int main(){
 			answerArray[i] = myArray[i];
 		}
 
-		// Remove some cells (about 40%–60%)
-		int removeCount = size * 0.5; // tweak for difficulty
+		// Choose difficulty
+		int removeCount = size * 0.55;
+		printf("Difficulty? Type \'e\', \'m\', or \'h\' for easy, medium, or hard.\n");
+		char difficulty;
+		scanf(" %c", &difficulty);
+		if(difficulty == 'e' || difficulty == 'E'){
+			removeCount = size * 0.4;
+		}
+		else if(difficulty == 'm' || difficulty == 'M'){
+			removeCount = size * 0.55;
+		}
+		else if(difficulty == 'h' || difficulty == 'H'){
+			removeCount = size * 0.7;
+		}
+		else{
+			printf("Invalid difficulty. Defaulting to medium.\n");
+		}
+
 		for (int k = 0; k < removeCount; k++) {
 			int idx = rand() % size;
 			myArray[idx] = 0;
