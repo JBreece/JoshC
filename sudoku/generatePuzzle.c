@@ -35,7 +35,7 @@ bool noRulesViolated(int* arr, int rowSize, int digitToTry, int row, int col){
 	return true;
 }
 
-bool generatePuzzle(int* arr){
+bool solvePuzzle(int* arr){
 	int rowToTry = 0;
 	int colToTry = 0;
 	if(findEmptyCell(arr, 9, &rowToTry, &colToTry) == false)
@@ -56,8 +56,9 @@ bool generatePuzzle(int* arr){
 		int currentNumber = randomNumbers[i];
 		if(noRulesViolated(arr, 9, currentNumber, rowToTry, colToTry)){
 			arr[rowToTry * 9 + colToTry] = currentNumber;
-			if(generatePuzzle(arr) == true)
+			if(solvePuzzle(arr) == true)
 				return true;
+			arr[rowToTry * 9 + colToTry] = 0;
 		}
 	}
 	arr[rowToTry * 9 + colToTry] = 0;

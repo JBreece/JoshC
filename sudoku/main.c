@@ -43,7 +43,7 @@ int main(){
 		}
 
 		srand(time(NULL));
-		generatePuzzle(myArray);
+		solvePuzzle(myArray);
 		// Copy solved puzzle into answer key
 		for (int i = 0; i < size; i++) {
 			answerArray[i] = myArray[i];
@@ -58,7 +58,7 @@ int main(){
 
 		displaySudoku(myArray, size);
 
-
+		// primary game loop
 		char contPlay = 'y';
 		while(contPlay == 'y' || contPlay == 'Y'){
 			printf("Enter a number in the format: row,column,number\n");
@@ -68,39 +68,42 @@ int main(){
 			printf("Add/update another number? Y or N\n");
 			scanf(" %c", &contPlay);
 		}
+
+		// answer prompt
+		char answer;
+		printf("Do you want to check your answer? Y or N\n");
+		scanf(" %c", &answer);
+		if(answer == 'Y' || answer == 'y')
+			displaySudoku(answerArray, size);
+
+		// check answer
+		bool correctAnswer = true;
+		for(int i = 0; i < size; i++){
+			if(myArray[i] != answerArray[i])
+				correctAnswer = false;
+		}
+		if(correctAnswer == true)
+			printf("You did it! Nice job solving the puzzle.\n");
+		else
+			printf("Incorrect! Try playing again with ./runsudoku\n");
 	}
 	else if(strcmp(play, "solve") == 0 || strcmp(play, "Solve") == 0 || strcmp(play, "SOLVE") == 0){
 		char inputPuzzle[size];
-		printf("Enter your puzzle to solve as a single string of numbers - for example, type \"1234\" and hit enter");
+		printf("Enter your puzzle to solve as a single string of numbers, using 0 to indicate blank spaces.\nFor example, type \"12034\" and hit enter\n");
 		scanf(" %s", inputPuzzle);
 		for(int i = 0; i < size; i++) {
-			myArray[i] = inputPuzzle[i];
-			answerArray[i] = inputPuzzle[i];
+			myArray[i] = inputPuzzle[i] - '0';
 		}
-		// TODO do the rest of the solve part
+		printf("The puzzle you entered: \n");
 		displaySudoku(myArray, size);
+		printf("The solved puzzle: \n");
+		solvePuzzle(myArray);
+		displaySudoku(myArray, size);
+		printf("Thanks for using my sudoku solver! Run ./runsudoku to play or solve another puzzle!\n");
 	}
 	else{
 		printf("Invalid input, try again");
 	}
-
-	// answer prompt
-	char answer;
-	printf("Do you want to check your answer? Y or N\n");
-	scanf(" %c", &answer);
-	if(answer == 'Y' || answer == 'y')
-		displaySudoku(answerArray, size);
-
-	// check answer
-	bool correctAnswer = true;
-	for(int i = 0; i < size; i++){
-		if(myArray[i] != answerArray[i])
-			correctAnswer = false;
-	}
-	if(correctAnswer == true)
-		printf("You did it! Nice job solving the puzzle.\n");
-	else
-		printf("Incorrect! Try playing again with ./runsudoku\n");
 
 	free(myArray);
 	free(answerArray);
